@@ -3,17 +3,20 @@
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
 
+resources:
+  repositories:
+    - repository: templates
+      type: git
+      name: CIO-IS-ApplicationSecurity/DevSecOps
+      ref: refs/heads/main
+
 trigger:
 - master
 
-pool:
-  vmImage: ubuntu-latest
+pool: AppSec-Linux
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
-
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+extends:
+  template: New-AppSec-Pipeline-JenkinsTemplate.yml@templates
+  parameters:
+    checkmarx_team: ESM #What is your team name in Checkmarx SAST/SCA
+    ToAddr: nate.bunton@csgi.com
